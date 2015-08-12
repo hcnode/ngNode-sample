@@ -9,8 +9,6 @@
   "author": "hcnode",
   "license": "MIT",
   "dependencies": {
-    "ngnode": "2.0.3",
-    "browserify": "^10.2.4",
-    "lodash": "^3.10.0"
+    "ngnode": "2.0.4"
   }
 }
