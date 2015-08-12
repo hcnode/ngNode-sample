@@ -3,6 +3,7 @@
  */
 var config = {
 	appName : "test",
+	appPath : __dirname,
 	mongodConnection : "mongodb://localhost:27017/ngnode",
 	on: {
 		"beforeCreate": function (req, res, model, cb) {

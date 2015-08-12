@@ -1,7 +1,7 @@
 /**
  * Created by harry on 15/4/21.
  */
-module.exports = function (mongoose, lodash) {
+module.exports = function () {
 	return {
 		name: "blog",
 		schema: {
@@ -15,21 +15,21 @@ module.exports = function (mongoose, lodash) {
 				sortable: true,
 				text: "Author"
 			},
-			body: {
+			content: {
 				type: String,
 				editType: "textarea",
 				render: function (data) {
-					return data.length > 40 ? data.substring(0, 40) + ".." : data;
+					return data ? data.length > 40 ? data.substring(0, 40) + ".." : data : "";
 				},
-				text: "Body"
+				text: "Content"
 			},
-			date: {
+			createAt: {
 				type: Date,
 				sortable: true,
 				render: function (data) {
 					return data && data.split("T")[0];
 				},
-				text: "Date"
+				text: "createAt"
 			},
 			createBy: {
 				type: String,
@@ -51,6 +51,30 @@ module.exports = function (mongoose, lodash) {
 		},
 		defSortField: "title",
 		queryFields: ["title", "author"],
-		defaultPageSize: 15
+		defaultPageSize: 15,
+		on: {
+			"beforeCreate": function (req, res, model, cb) {
+				model.createAt = new Date();
+				model.err = "xxx";
+				cb(model);
+			}
+		},
+		initData: function (mongoose) {
+			var Blog = mongoose.model("blog");
+			Blog.create({
+				title : "what is ngNode?",
+				author : "hcnode",
+				content : "todo todo todo todo todo todo todo todo todo todo todo todo todo todo todo todo todo" +
+					" todo todo todo todo todo todo",
+				category : "Node",
+				recommend : true
+			}, function (err, blog) {
+				if(err){
+					console.log("create blog fail when init model");
+				}else {
+					console.log("create blog success when init model");
+				}
+			});
+		}
 	};
 }
